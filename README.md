@@ -43,3 +43,23 @@ docker stop node_8
 # docker rm CONTAINER_NAME
 docker rm node_8
 ```
+
+# Additional commands/options
+
+### Set the port
+```bash
+docker run -it --name node_8 -p 8001:8001 node_8:node8alpine
+```
+
+### Set the NODE_ENV
+```bash
+docker run -it --name node_8 -e NODE_ENV=production node_8:node8alpine
+```
+
+### Link a Docker image from another one
+```bash
+# --link ANOTHER_CONTAINER_NAME
+docker run -it --name express_url -p 8002:8002 node_8:node8alpine
+docker run -it --name node_8 node_8:node8alpine --link express_url
+```
+A link to the second container (express_url in the example) will be added to the `hosts` file of the launching container (node_8 in the example). So any call requested by the node_8 container to http://express_url:8002 will be redirected to the express_url container
